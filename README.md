@@ -5,9 +5,9 @@
 
 ---
 
-![Demo](demo.mp4)
+<img src="https://github.com/HanaNabhan/Equipment_Utilization_Prototype/blob/main/demo.mp4" width="400" alt="Project Demo">
 
-> *Dashboard showing live excavator tracking with DIGGING → SWINGING → DUMPING cycle classification, utilization percentage, and activity breakdown charts.*
+
 
 ---
 
