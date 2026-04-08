@@ -3,18 +3,6 @@ cv_service/extract_features.py
 ─────────────────────────────────────────────────────────────
 Feature extraction for excavator-only LSTM training.
 
-Reads: video + labels.csv (from label_tapper.py)
-Writes: features.pt (upload to Colab for training)
-
-The extractor only looks for excavator (class 3 in your model).
-All other equipment in the scene is ignored.
-
-Usage:
-    python cv_service/extract_features.py `
-        --video  data/input.mp4 `
-        --labels data/labels.csv `
-        --model  model/weights/best_model.pt `
-        --out    data/features/features.pt
 """
 from __future__ import annotations
 
