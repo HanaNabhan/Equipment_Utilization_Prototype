@@ -1,4 +1,4 @@
-# 🏗️ Equipment Utilization & Activity Classification
+#  Equipment Utilization & Activity Classification
 
 > Real-time construction equipment monitoring using computer vision and deep learning.
 > Detects, tracks, and classifies excavator work cycles from construction site video.
