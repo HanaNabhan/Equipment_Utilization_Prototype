@@ -2,17 +2,6 @@
 infra/kafka_consumer.py
 ─────────────────────────────────────────────────────────────
 Kafka → TimescaleDB consumer.
-
-Reads equipment telemetry payloads from Kafka topic
-and writes them to TimescaleDB (PostgreSQL).
-
-Run standalone (outside Docker):
-    python infra/kafka_consumer.py
-
-Environment variables:
-    KAFKA_BOOTSTRAP   Kafka broker address (default: localhost:9092)
-    TIMESCALE_DSN     PostgreSQL DSN (default: sqlite fallback)
-    KAFKA_TOPIC       Topic name (default: equipment_telemetry)
 """
 from __future__ import annotations
 
