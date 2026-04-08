@@ -7,6 +7,8 @@
 
 <img src="https://github.com/HanaNabhan/Equipment_Utilization_Prototype/blob/main/demo.mp4" width="400" alt="Project Demo">
 
+<img src="dashboard1.png" width="900" alt="Project Demo">
+<img src="dashboard2.png" width="900" alt="Project Demo">
 
 
 ---
