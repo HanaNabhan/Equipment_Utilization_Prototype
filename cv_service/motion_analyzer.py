@@ -2,20 +2,6 @@
 cv_service/motion_analyzer.py
 ─────────────────────────────────────────────────────────────
 Articulated Motion Detection Engine
-
-Design:
-  1. Split each YOLO bounding box into ARM zone and BODY zone.
-  2. Run independent MOG2 background subtractors per zone.
-  3. Extract a 6-feature motion vector per frame.
-  4. Feed a SEQ_LEN-frame sliding window into an LSTM for activity
-     classification with rule-based fallback.
-
-Activity mapping:
-  Excavator  → DIGGING | SWINGING | WAITING  (LSTM trained)
-  Dump truck → MOVING  | WAITING             (rule-based only, simpler)
-  Mixer      → MOVING  | WAITING             (rule-based only, simpler)
-
-UNKNOWN is never returned.
 """
 from __future__ import annotations
 
