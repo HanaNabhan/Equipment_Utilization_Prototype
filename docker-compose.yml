@@ -1,0 +1,128 @@
+version: "3.9"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Equipment Utilization & Activity Classification
+# Spins up: Kafka + Zookeeper + TimescaleDB + CV Service + Dashboard
+#
+# Usage:
+#   docker-compose up -d            # start all services
+#   docker-compose logs -f cv       # follow CV pipeline logs
+#   docker-compose down -v          # stop and remove volumes
+# ─────────────────────────────────────────────────────────────────────────────
+
+services:
+
+  # ── Zookeeper (required by Kafka) ──────────────────────────────────────────
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.6.0
+    container_name: zookeeper
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - "2181:2181"
+    healthcheck:
+      test: ["CMD", "nc", "-z", "localhost", "2181"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ── Kafka ──────────────────────────────────────────────────────────────────
+  kafka:
+    image: confluentinc/cp-kafka:7.6.0
+    container_name: kafka
+    depends_on:
+      zookeeper:
+        condition: service_healthy
+    ports:
+      - "9092:9092"
+      - "9101:9101"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://localhost:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+      KAFKA_LOG_RETENTION_HOURS: 24
+    healthcheck:
+      test: ["CMD", "kafka-broker-api-versions", "--bootstrap-server", "localhost:9092"]
+      interval: 15s
+      timeout: 10s
+      retries: 10
+
+  # ── TimescaleDB (PostgreSQL with time-series extension) ────────────────────
+  timescaledb:
+    image: timescale/timescaledb:latest-pg15
+    container_name: timescaledb
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: equipment
+      POSTGRES_PASSWORD: equipment123
+      POSTGRES_DB: utilization
+    volumes:
+      - timescale_data:/var/lib/postgresql/data
+      - ./infra/init_timescale.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U equipment -d utilization"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  # ── CV Pipeline (producer) ─────────────────────────────────────────────────
+  cv:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: cv_pipeline
+    depends_on:
+      kafka:
+        condition: service_healthy
+      timescaledb:
+        condition: service_healthy
+    environment:
+      KAFKA_BOOTSTRAP: kafka:29092
+      TIMESCALE_DSN: postgresql://equipment:equipment123@timescaledb:5432/utilization
+      VIDEO_PATH: /data/input.mp4
+      MODEL_PATH: /app/model/weights/best_model.pt
+      LSTM_PATH: /app/best_lstm.pth
+    volumes:
+      - ./data:/data:ro
+      - ./model:/app/model:ro
+      - ./best_lstm.pth:/app/best_lstm.pth:ro
+      - clip_vol:/clips
+    command: >
+      python run_local.py
+        --video /data/input.mp4
+        --model /app/model/weights/best_model.pt
+        --use-kafka
+        --use-timescale
+        --fresh
+    restart: on-failure
+
+  # ── Streamlit Dashboard (consumer) ────────────────────────────────────────
+  dashboard:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: dashboard
+    depends_on:
+      - timescaledb
+    ports:
+      - "8501:8501"
+    environment:
+      TIMESCALE_DSN: postgresql://equipment:equipment123@timescaledb:5432/utilization
+      LOCAL_DB: ""
+    volumes:
+      - clip_vol:/clips
+    command: >
+      streamlit run streamlit_ui/app_local.py
+        --server.port=8501
+        --server.headless=true
+        --server.address=0.0.0.0
+    restart: on-failure
+
+volumes:
+  timescale_data:
+  clip_vol:

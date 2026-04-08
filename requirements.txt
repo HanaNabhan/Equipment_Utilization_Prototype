@@ -1,0 +1,22 @@
+# Core CV & detection
+ultralytics>=8.0.0
+opencv-python>=4.8.0
+numpy>=1.24.0
+
+# Deep learning
+torch>=2.0.0
+torchvision>=0.15.0
+
+# Dashboard
+streamlit>=1.30.0
+plotly>=5.18.0
+pandas>=2.0.0
+
+# Kafka streaming (production)
+kafka-python>=2.0.2
+
+# TimescaleDB / PostgreSQL (production)
+psycopg2-binary>=2.9.0
+
+# Training tools
+keyboard>=0.13.5
