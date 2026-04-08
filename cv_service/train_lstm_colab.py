@@ -1,16 +1,3 @@
-# ╔══════════════════════════════════════════════════════════════════╗
-# ║  LSTM Activity Classifier — Complete Training Notebook          ║
-# ║  Google Colab — GPU Runtime (T4)                                ║
-# ║                                                                  ║
-# ║  Steps:                                                          ║
-# ║   1. Runtime → Change runtime type → T4 GPU                     ║
-# ║   2. Upload f1.pt, f2.pt, f3.pt to Colab files panel            ║
-# ║   3. Run all cells in order (Ctrl+F9 = run all)                 ║
-# ║   4. Download best_lstm.pth when done                           ║
-# ║   5. Place best_lstm.pth in your project root                   ║
-# ║   6. Set use_lstm=True in run_local.py                          ║
-# ╚══════════════════════════════════════════════════════════════════╝
-
 
 # ── CELL 1: Setup ─────────────────────────────────────────────────
 import torch
