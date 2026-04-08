@@ -3,23 +3,6 @@ cv_service/label_tapper.py
 ─────────────────────────────────────────────────────────────
 Speed-labeling tool — Excavator, 4 classes.
 
-HOW TO USE:
-  1. Open your video in VLC
-  2. Run this script:  python cv_service/label_tapper.py
-  3. Press SPACE here AND in VLC at the same time (sync)
-  4. Hold a key while the activity is happening:
-         D = DIGGING  (arm/bucket into ground)
-         S = SWINGING (whole body rotating)
-         Q = DUMPING  (bucket emptying into truck)
-         W = WAITING  (machine idle/still)
-  5. Release the key when the activity ends
-  6. Press R immediately after a mistake to reject it
-  7. Press ESC when done → saves data/labels.csv
-
-TIPS:
-  - VLC at 0.75x speed helps with precise transitions
-  - Leave gaps between labels — unlabeled frames are simply skipped
-  - The full cycle is: DIGGING → SWINGING → DUMPING → SWINGING → repeat
 """
 from __future__ import annotations
 
