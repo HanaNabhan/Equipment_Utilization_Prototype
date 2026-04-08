@@ -5,7 +5,7 @@
 
 ---
 
-![Demo](demo.gif)
+![Demo](demo.mp4)
 
 > *Dashboard showing live excavator tracking with DIGGING → SWINGING → DUMPING cycle classification, utilization percentage, and activity breakdown charts.*
 
