@@ -4,8 +4,10 @@
 > Detects, tracks, and classifies excavator work cycles from construction site video.
 
 ---
-[▶️ Watch Demo]([https://github.com/username/repo/raw/main/demo.mp4](https://github.com/HanaNabhan/Equipment_Utilization_Prototype/blob/main/demo.mp4))
 
+<a href="https://github.com/HanaNabhan/Equipment_Utilization_Prototype/blob/main/demo.mp4">
+  <img src="https://github.com/HanaNabhan/Equipment_Utilization_Prototype/blob/main/demo_example.png" />
+</a>
 
 <img src="dashboard1.png" width="900" alt="Project Demo">
 <img src="dashboard2.png" width="900" alt="Project Demo">
