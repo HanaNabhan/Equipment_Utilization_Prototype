@@ -7,13 +7,6 @@ Applies before YOLO inference to improve detection quality:
   1. Resolution normalization  — resize to 1280px wide max
   2. Contrast enhancement      — CLAHE on luminance channel
   3. Denoising                 — light Gaussian blur for noisy cameras
-  4. Stabilization check       — warn if frame is blurry (motion blur)
-
-Used automatically by run_local.py on every frame before detection.
-Can be disabled with --no-preprocess flag.
-
-Standalone usage (inspect what preprocessing does to your video):
-    python cv_service/preprocess.py --video data/input.mp4 --frames 5
 """
 from __future__ import annotations
 
