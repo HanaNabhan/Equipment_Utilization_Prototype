@@ -1,10 +1,6 @@
 """
 infra/kafka_producer.py
-─────────────────────────────────────────────────────────────
-Thin wrapper around kafka-python KafkaProducer.
-Used by run_local.py to stream equipment telemetry payloads.
 
-Falls back gracefully if Kafka is not available (local dev mode).
 """
 from __future__ import annotations
 
