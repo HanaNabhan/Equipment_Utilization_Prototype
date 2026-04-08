@@ -86,24 +86,6 @@ Input Video
 
 ---
 
-## The Articulated Motion Problem
-
-Standard whole-box motion detection fails for excavators:
-
-```
-❌ Wrong approach — whole bounding box:
-   During digging, only the arm moves.
-   Whole-box detector sees little motion → reports INACTIVE.
-
-✅ Our approach — dual-zone split:
-   ┌──────────────────┐
-   │   ARM ZONE       │  ← MOG2 #1: arm_score
-   │   (top 55%)      │    high during DIGGING and SWINGING
-   ├──────────────────┤
-   │   BODY ZONE      │  ← MOG2 #2: body_score
-   │   (bottom 45%)   │    high during SWINGING, low during DIGGING
-   └──────────────────┘
-```
 
 **Activity logic from motion ratios:**
 
